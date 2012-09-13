@@ -15,6 +15,7 @@ int main()
 
     game::world world;
     input::controller control;
+    control.keys.load("rc/key.cfg");
 
     sf::Texture test;
     if (!test.loadFromFile("rc/dinoTestSheet.png"))

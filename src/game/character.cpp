@@ -4,48 +4,64 @@ namespace oasis
 {
     namespace game
     {
-        void charInput::tick()
+        void character::setHoriz(movable::motion state_)
         {
-            /*bool moveL_, moveR_, moveU_, moveD_;
+            sf::Vector2f scale_ = _image.getScale();
+            switch (state_)
+            {
+                case left:
+                    scale_.x = -fabs(scale_.x);
+                    _image.setRunning(true);
+                    _image.setScale(scale_.x, scale_.y);
+                    return;
 
-            moveL_ = gameInput::_state.down[sf::Keyboard::A] | gameInput::_state.down[sf::Keyboard::Left];
-            moveR_ = gameInput::_state.down[sf::Keyboard::D] | gameInput::_state.down[sf::Keyboard::Right];
-            moveU_ = gameInput::_state.down[sf::Keyboard::W] | gameInput::_state.down[sf::Keyboard::Up];
-            moveD_ = gameInput::_state.down[sf::Keyboard::S] | gameInput::_state.down[sf::Keyboard::Down];
+                case right:
+                    scale_.x = fabs(scale_.x);
+                    _image.setRunning(true);
+                    _image.setScale(scale_.x, scale_.y);
+                    return;
 
-            if (moveL_ != moveR_)
-                _xvel = moveR_ ? _speed : -_speed;
-            else
-                _xvel = 0;
+                case none:
+                    _image.setRunning(false);
+                    return;
 
-            if (moveU_ != moveD_)
-                _yvel = moveD_ ? _speed : -_speed;
-            else
-                _yvel = 0;*/
+                default:
+                    return;
+            }
         }
 
         void character::tick()
         {
-            float xvel_, yvel_;
-            xvel_ = _xvel;
-            yvel_ = _yvel;
-
-            _input.tick();
             _image.tick();
-
-            if (_xvel != 0 && xvel_ != _xvel)
-                _image.setScale(_xvel > 0 ? 1 : -1, 1);
-
-            if (_xvel == 0 && xvel_ != 0)
-                _image.setRunning(false);
-
-            if (_xvel != 0 && xvel_ == 0)
-                _image.setRunning(true);
-
-            x += _xvel;
-            y += _yvel;
-
             _image.setPosition(x, y);
+
+            switch (movable::_horiz)
+            {
+                case left:
+                    x -= 5;
+                    break;
+
+                case right:
+                    x += 5;
+                    break;
+
+                default:
+                    break;
+            }
+
+            switch (movable::_vert)
+            {
+                case up:
+                    y -= 5;
+                    break;
+
+                case down:
+                    y += 5;
+                    break;
+
+                default:
+                    break;
+            }
 
             _app.window.draw(_image.target());
         }

@@ -6,6 +6,7 @@
 #include <SFML/Window.hpp>
 
 #include "util/container.h"
+#include "keymap.h"
 
 namespace oasis
 {
@@ -21,6 +22,8 @@ namespace oasis
         class controller: public util::container
         {
             public:
+                keymap keys;
+
                 void input(sf::Event event_);
                 void add(gameInput& object_) {container::add(object_);};
                 void destroy(gameInput& object_) {container::destroy(object_);};

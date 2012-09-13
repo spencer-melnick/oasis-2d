@@ -1,9 +1,11 @@
 #ifndef game_character_h
 #define game_character_h
 
-#include <iostream>
+#include <cmath>
 
-#include "entity.h"
+#include <SFML/Window.hpp>
+
+#include "movable.h"
 
 #include "input/controller.h"
 #include "app/app.h"
@@ -13,42 +15,21 @@ namespace oasis
 {
     namespace game
     {
-        class charInput: public input::gameInput
+        class character: public movable
         {
             private:
-                bool _moving;
-                float& _xvel, &_yvel;
-                float _speed;
+                void setHoriz(movable::motion state_);
 
-            public:
-                charInput(float& xvel_, float& yvel_) : _xvel(xvel_), _yvel(yvel_){};
-
-                void input(sf::Event event_) {};
-                void tick();
-        };
-
-        class character: public entity
-        {
             protected:
-                enum mode
-                {
-                    standing,
-                    walking,
-                    numStates
-                };
-
-                float _xvel, _yvel;
-
                 graphics::sprite _image;
-                charInput _input;
+                motionInput _input;
 
                 app::app& _app;
 
             public:
                 float x, y;
-                mode state;
 
-                character(graphics::sprite::animation& image_, app::app& app_, input::controller& controller_) : _image(image_), _input(_xvel, _yvel), _app(app_) {controller_.add(_input);};
+                character(graphics::sprite::animation& image_, app::app& app_, input::controller& controller_) : _image(image_), _input(*(movable*)(this)), _app(app_) {controller_.add(_input); _image.setRunning(false);};
 
                 void tick();
                 void destroy();

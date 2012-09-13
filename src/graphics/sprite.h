@@ -43,6 +43,7 @@ namespace oasis
                 void setRunning(bool running_);
                 virtual void setPosition(float x_, float y_) {_target.setPosition(x_, y_);};
                 virtual void setScale(float x_, float y_) {_target.setScale(x_, y_);};
+                sf::Vector2f getScale() {return _target.getScale();};
                 sf::Drawable& target() {return _target;};
         };
     }

@@ -6,7 +6,7 @@ namespace oasis
     {
         app::app()
         {
-            _fullscreen = true;
+            _fullscreen = false;
             _video = sf::VideoMode::getDesktopMode();
             _wvideo = sf::VideoMode(800, 600);
         }
